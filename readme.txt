@@ -1,0 +1,1 @@
+This repo holds the project and lab work from my "Microsoft C++ Programming Professional Certificate" Coursera online course.
