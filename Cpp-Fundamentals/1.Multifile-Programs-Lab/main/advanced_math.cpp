@@ -1,4 +1,4 @@
-#include "../includes/advanced_math.h"
+#include "advanced_math.h"
 #include <cmath>
 double power(double base, int exponent){
     return pow(base, exponent);

@@ -1,4 +1,4 @@
-#include "../includes/basic_math.h"
+#include "basic_math.h"
 //implement functions
 
 double add(double a, double b){
