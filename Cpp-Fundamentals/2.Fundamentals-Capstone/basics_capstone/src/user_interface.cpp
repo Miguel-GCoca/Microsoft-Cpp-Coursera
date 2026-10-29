@@ -7,7 +7,7 @@
  */
 void displayMenu() {
     std::cout << "\n=============== MAIN MENU ===============" << std::endl;
-    std::cout << "1. Utility Function 1" << std::endl;
+    std::cout << "1. 3-DOF IK Calculator" << std::endl;
     std::cout << "2. Utility Function 2" << std::endl;
     std::cout << "3. Utility Function 3" << std::endl;
     std::cout << "4. Utility Function 4" << std::endl;
@@ -36,6 +36,44 @@ int getMenuChoice(int min, int max){
             clearInputBuffer();
             std::cout << "Error: Invalid menu input\n";
             std::cout << "Enter a value between " << min << " and " << max << std::endl;
+        }
+    }
+    return input;
+}
+
+/**
+ * Get user decimal value, positive or negative.
+ */
+double getDouble(){
+    bool gotNum = false;
+    double input;
+    while (!gotNum){
+        if (std::cin >> input){
+            gotNum = true;
+        }
+        else{
+            clearInputBuffer();
+            std::cout << "Error: Expected number as input\n";
+            std::cout << "Enter a valid decimal value" << std::endl;
+        }
+    }
+    return input;
+}
+
+/**
+ * Get POSITIVE user decimal value
+ */
+double getPositiveDouble(){
+    bool gotNum = false;
+    double input;
+    while(!gotNum){
+        input = getDouble();
+        if (input >= 0){
+            gotNum = true;
+        }
+        else{
+            std::cout << "Error: Cannot process negative values\n";
+            std::cout << "Please enter a Positive decimal value" << std::endl;
         }
     }
     return input;

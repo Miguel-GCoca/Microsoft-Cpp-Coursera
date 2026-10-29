@@ -7,6 +7,8 @@
  */
 #include "basics_capstone/user_interface.hpp"
 #include "basics_capstone/utility_functions.hpp"
+#include "basics_capstone/inverse_kinematics.hpp"
+
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -38,7 +40,7 @@ int main() {
         // Process user choice
         switch (choice) {
             case 1:
-                utilityFunction1();
+                calculateIK();
                 break;
             case 2:
                 utilityFunction2();

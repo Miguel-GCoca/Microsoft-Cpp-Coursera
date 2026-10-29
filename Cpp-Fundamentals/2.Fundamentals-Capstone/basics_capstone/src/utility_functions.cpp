@@ -3,21 +3,7 @@
 #include <iostream>
 
 
-/**
- * First utility function - [Replace with your function name/description]
- */
-void utilityFunction1() {
-    std::cout << "\n========== UTILITY FUNCTION 1 ==========" << std::endl;
-    std::cout << "[Replace with your function description]" << std::endl;
-    
-    // TODO: Implement your first utility function
-    // 1. Get required input from the user
-    // 2. Validate the input
-    // 3. Process the input
-    // 4. Display the results
-    
-    waitForEnter();
-}
+
 
 /**
  * Second utility function - [Replace with your function name/description]
