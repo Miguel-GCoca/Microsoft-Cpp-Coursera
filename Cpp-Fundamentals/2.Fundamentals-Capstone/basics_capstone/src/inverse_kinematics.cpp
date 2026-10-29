@@ -86,7 +86,7 @@ void setEETarget(double& x, double& y, double& z){
 bool checkReachability(double h, double L1, double L2, double x, double y, double z){
     double minRadius = std::abs(L1 - L2);
     double maxRadius = L1 + L2;
-    double targetDistanceFromBase = magnitude(x, y, z - h);
+    double targetDistanceFromShoulder =  magnitude(x, y, z - h);
 
     if (targetDistanceFromShoulder <= maxRadius && targetDistanceFromShoulder >= minRadius){
         return true;
