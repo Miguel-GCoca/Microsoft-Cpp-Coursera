@@ -5,17 +5,6 @@
 
 
 
-/**
- * Second utility function - [Replace with your function name/description]
- */
-void utilityFunction2() {
-    std::cout << "\n========== UTILITY FUNCTION 2 ==========" << std::endl;
-    std::cout << "[Replace with your function description]" << std::endl;
-    
-    // TODO: Implement your second utility function
-    
-    waitForEnter();
-}
 
 /**
  * Third utility function - [Replace with your function name/description]

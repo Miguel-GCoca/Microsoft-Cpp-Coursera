@@ -10,6 +10,7 @@ add_executable(capstone
     src/math_utils.cpp
     src/user_interface.cpp
     src/utility_functions.cpp
+    src/pid_simulator.cpp
 )
 
 target_include_directories(capstone PRIVATE includes)

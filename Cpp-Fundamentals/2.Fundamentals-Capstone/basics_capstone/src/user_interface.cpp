@@ -8,7 +8,7 @@
 void displayMenu() {
     std::cout << "\n=============== MAIN MENU ===============" << std::endl;
     std::cout << "1. 3-DOF IK Calculator" << std::endl;
-    std::cout << "2. Utility Function 2" << std::endl;
+    std::cout << "2. Joint Control PID Sim" << std::endl;
     std::cout << "3. Utility Function 3" << std::endl;
     std::cout << "4. Utility Function 4" << std::endl;
     std::cout << "5. Exit" << std::endl;
@@ -35,7 +35,7 @@ int getMenuChoice(int min, int max){
         else{
             clearInputBuffer();
             std::cout << "Error: Invalid menu input\n";
-            std::cout << "Enter a value between " << min << " and " << max << std::endl;
+            std::cout << "Enter a number between " << min << " and " << max << std::endl;
         }
     }
     return input;
@@ -73,7 +73,27 @@ double getPositiveDouble(){
         }
         else{
             std::cout << "Error: Cannot process negative values\n";
-            std::cout << "Please enter a Positive decimal value" << std::endl;
+            std::cout << "Please enter a Positive decimal value or zero" << std::endl;
+        }
+    }
+    return input;
+}
+
+/**
+ * Get POSITIVE user decimal value
+ */
+double getDoubleGreaterThanZero(){
+    bool gotNum = false;
+    double input;
+
+    while(!gotNum){
+        input = getDouble();
+        if (input > 0){
+            gotNum = true;
+        }
+        else{
+            std::cout << "Error: Cannot process negative or zero\n";
+            std::cout << "Please enter a Positive decimal value > zero" << std::endl;
         }
     }
     return input;

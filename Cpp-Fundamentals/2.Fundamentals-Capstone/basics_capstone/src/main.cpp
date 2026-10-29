@@ -8,6 +8,7 @@
 #include "basics_capstone/user_interface.hpp"
 #include "basics_capstone/utility_functions.hpp"
 #include "basics_capstone/inverse_kinematics.hpp"
+#include "basics_capstone/pid_simulator.hpp"
 
 #include <iostream>
 #include <string>
@@ -43,7 +44,7 @@ int main() {
                 calculateIK();
                 break;
             case 2:
-                utilityFunction2();
+                simulatePID();
                 break;
             case 3:
                 utilityFunction3();

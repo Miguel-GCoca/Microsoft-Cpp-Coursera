@@ -6,4 +6,5 @@ void waitForEnter();
 int getMenuChoice(int min, int max);
 double getPositiveDouble();
 double getDouble();
+double getDoubleGreaterThanZero();
 #endif //BASICS_CAPSTONE__USER_INTERFACE_HPP_
