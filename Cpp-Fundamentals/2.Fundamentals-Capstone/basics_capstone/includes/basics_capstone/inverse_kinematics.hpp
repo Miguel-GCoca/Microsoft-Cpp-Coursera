@@ -4,5 +4,7 @@ void calculateIK();
 void initializeRobot(double& h, double& L1, double& L2);
 void setEETarget(double& x, double& y, double& z);
 bool checkReachability(double h, double L1, double L2, double x, double y, double z);
-void calculateJacobian();
+double calculateT1(double x, double y);
+double calculateT3(double L1, double L2, double d);
+double calculateT2(double r, double s, double L1, double L2, double θ3);
 #endif //BASICS_CAPSTONE__INVERSE_KINEMATICS_

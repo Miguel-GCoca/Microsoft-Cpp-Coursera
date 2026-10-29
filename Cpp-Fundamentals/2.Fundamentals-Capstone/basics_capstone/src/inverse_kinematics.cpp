@@ -3,44 +3,108 @@
 #include "basics_capstone/math_utils.hpp"
 #include <iostream>
 #include <cmath>
-
+#include <algorithm>
+#include <cstdio>
+const double PI = std::acos(-1.0);
 
 
 /**
  * First menu option: returns IK of 3dof RRR spherical robot arm.
  */
 void calculateIK() {
+    double h,L1,L2,x,y,z,θ1,θ2Up,θ2Down,θ3Up,θ3Down;
+    bool isSingularity, isReachable, gotTarget = false;
+
     std::cout << "\n========== 3-DOF IK Calculator ==========" << std::endl;
     std::cout << "   Calculator for spherical RRR robot arm  " << std::endl;
     
-    double h,L1,L2,x,y,z;
-
+    std::cout << R"(     
+    z                   o  (θ3)
+    ^                  / \
+    |              L1 /   \ L2
+    +--->x           /     \
+                    /       \
+              (θ2) o         >>  end effector
+                   |              (x, y, z)
+                   | h
+                   |
+              _____|_____ 
+             |    (θ1)   |  
+             |__about z__|   
+    )" << std::endl;
     std::cout << "You will need values for the base height and link lengths to initiallize RRR robot\n";
     initializeRobot(h, L1, L2);
-
-    std::cout << "Next enter values for target end effector position in xyz\n";
-    setEETarget(x, y, z);
     
+    std::cout << "Next enter values for target end effector position in xyz\n";
+    
+    
+
+    while(!gotTarget){
+        setEETarget(x, y, z);
+        isReachable = checkReachability(h,L1,L2,x,y,z);
+        if (isReachable){
+            gotTarget = true;
+            if (std::abs(x) > 1e-9 || std::abs(y) > 1e-9){
+                isSingularity = false;
+            }
+            else{
+                std::cout << "Important: Target pose is a singularity\n";
+                std::cout << "Valid values for θ1 are therefore infinite.\n";
+                isSingularity = true;
+            }
+        }
+        else{
+            std::cout << "Error: Target EE position is not reachable by robot.\n";
+        }
+    }
+
+    double s = z - h;
+    double r = magnitude(x, y);
+    double d = magnitude(r, s);
+
+    if(!isSingularity){
+        θ1 = calculateT1(x, y);
+    }
+    θ3Down = calculateT3(L1, L2, d);
+    θ3Up = -θ3Down;
+    θ2Up = calculateT2(r, s, L1, L2, θ3Up);
+    θ2Down = calculateT2(r, s, L1, L2, θ3Down);
+
+
     std::cout << "With your values, h: " << h << " L1: "<< L1 << " L2: " << L2 << "\n";
     std::cout << "The target (x, y, z): (" << x << ", " << y << ", " << z << ")\n";
-
-    bool reachable = checkReachability(h,L1,L2,x,y,z);
-    if (reachable){
-        std::cout << "Is reachable\n";
+    std::cout << "Elbow up position: ";
+    if(isSingularity){
+        std::cout << "any, ";
     }
     else{
-        std::cout << "Is not reachable\n";
+        printf("θ1: %.2f, ", θ1 * 180/PI);
     }
+    printf("θ2: %.2f, θ3: %.2f\n", θ2Up * 180/PI, θ3Up * 180/PI);
 
-    // TODO:
-    // 3. Process the input
-    // 4. Display the results
-    
+    std::cout << "Elbow down position: ";
+    if(isSingularity){
+        std::cout << "any, ";
+    }
+    else{
+        printf("θ1: %.2f, ", θ1 * 180/PI);
+    }
+    printf("θ2: %.2f, θ3: %.2f\n", θ2Down * 180/PI, θ3Down * 180/PI);
+
     waitForEnter();
 }
 
-void calculateJacobian(){
-
+double calculateT1(double x, double y){
+    return atan2(y, x);
+}
+double calculateT3(double L1, double L2, double d){
+    //using law of cosines
+    double c = (pow(d,2) - pow(L1,2) - pow(L2,2)) / (2 * L1 * L2);
+    c = std::clamp(c, -1.0,1.0);
+    return acos(c);
+}
+double calculateT2(double r, double s, double L1, double L2, double θ3){
+    return atan2(s,r) - atan2(L2 * sin(θ3), L1 + L2 * cos(θ3));
 }
 
 void initializeRobot(double& h, double& L1, double& L2){
