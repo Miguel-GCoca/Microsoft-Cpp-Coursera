@@ -12,7 +12,8 @@ void simulatePID() {
     std::cout << "Simulation of tuning a controller for a plant\n";
 
     PlantModel myPlant = choosePlant();
-    
+    PIDGains myGains = getGains();
+
     waitForEnter();
 }
 void plotResponse(const std::vector<Sample>& samples, double setpoint){
@@ -96,6 +97,12 @@ PlantModel choosePlant(){
 }
 PIDGains getGains(){
     PIDGains myGains;
+    printf("Next provide values for Kp, Kd, Ki. A value of zero disables the term.");
+    printf("Enter proportional gain Kp: ");
+    myGains.Kp = getPositiveDouble();
+    printf("Enter integral gain Ki: ");
+    myGains.Ki = getPositiveDouble();
+
     return myGains;
 }
 std::vector<Sample> runSimulation(const PlantModel& plant, const PIDGains& gains, double setpoint, double duration){
