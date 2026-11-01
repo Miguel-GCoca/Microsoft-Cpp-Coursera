@@ -19,11 +19,12 @@ struct Sample{
 };
 
 void simulatePID();
-void plotResponse(const std::vector<Sample>& samples, double setpoint);
-void printMetrics(const std::vector<Sample>& samples, double setpoint);
+void plotResponse(const std::vector<Sample>& samples, double stepInput);
+void printResults(const std::vector<Sample>& samples, double stepInput);
+void promptContinue(bool& changePlant, bool& exitProgram);
 PlantModel choosePlant();
 PIDGains getGains();
 std::vector<Sample> runSimulation(const PlantModel& plant, const PIDGains& gains,
-                                  double setpoint, double duration);
+                                  double stepInput, double duration);
 
 #endif //BASICS_CAPSTONE__PID_SIMULATOR_

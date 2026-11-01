@@ -10,18 +10,70 @@
 void simulatePID() {
     std::cout << "\n============== PID Simulator ==============" << std::endl;
     std::cout << "Simulation of tuning a controller for a plant\n";
-
+    
     PlantModel myPlant = choosePlant();
     PIDGains myGains = getGains();
 
+    double stepInput = 1.0;
+    double duration = 5.0;
+    bool exitProgram = false;
+    bool changePlant = false;
+    
+    //TODO FIX
+    do{
+        auto responseVector = runSimulation(myPlant, myGains, stepInput, duration);
+
+        plotResponse(responseVector, stepInput);
+        printResults(responseVector, stepInput);
+        promptContinue(changePlant, exitProgram);
+        if (changePlant){
+            myPlant = choosePlant();
+        }
+        myGains = getGains();
+    }while(!exitProgram);
+
     waitForEnter();
 }
-void plotResponse(const std::vector<Sample>& samples, double setpoint){
+
+void promptContinue(bool& changePlant, bool& exitProgram){
+    std::cout << "\n============= Continue? =============" << std::endl;
+    std::cout << "1. Continue, with same transfer function" << std::endl;
+    std::cout << "2. Continue, with new transfer function" << std::endl;
+    std::cout << "3. Exit program" << std::endl;
+    std::cout << "Make a selection: ";
+    int input = getMenuChoice(1,3);
+
+    switch(input){
+        case 1:
+            changePlant = false;
+            exitProgram = false;
+            break;
+        case 2:
+            changePlant = true;
+            exitProgram = false;
+            break;
+        case 3:
+            changePlant = false;
+            exitProgram = true;
+            break;
+    }
+}
+
+void plotResponse(const std::vector<Sample>& samples, double stepInput){
+    printf("\nresponse plotter here\n");
+}
+void printResults(const std::vector<Sample>& samples, double stepInput){
+    printf("results print here\n");
+}
+
+std::vector<Sample> runSimulation(const PlantModel& plant, const PIDGains& gains, double stepInput, double duration){
+    std::vector<Sample> myVector;
+
+
+    return myVector;
 
 }
-void printMetrics(const std::vector<Sample>& samples, double setpoint){
 
-}
 PlantModel choosePlant(){
     PlantModel myModel;
 
@@ -29,21 +81,21 @@ PlantModel choosePlant(){
     std::cout << "1. 1st Order Transfer Function" << std::endl;
     std::cout << "2. 2nd Order Transfer Function" << std::endl;
     std::cout << "3. Robot Joint with Stiffness and Damping" << std::endl;
-
+    std::cout << "Make a selection: ";
     int input = getMenuChoice(1,3);
     double K, tau, wn, zeta, J, c, k;
 
     switch(input){
         case 1:
             std::cout << R"(
-            ___K____
-             τs + 1     Please be prepared to provide K and τ
-            )";
+    ___K___     Please provide K and τ
+    τs + 1 
+    )";
 
-            printf("Input a value for K\n");
+            printf("\nInput a value for K: ");
             K = getDoubleGreaterThanZero();
 
-            printf("Input a value for τ\n");
+            printf("Input a value for τ: ");
             tau = getDoubleGreaterThanZero();
 
             myModel.a0 = 1;
@@ -54,17 +106,17 @@ PlantModel choosePlant(){
             break;
         case 2:
             std::cout << R"(
-            ________K_ωn^2_______
-             s^2 + 2ζωn s + ωn^2     Please be prepared to provide K, ωn and ζ
-            )";
+    ______K_ωn^2_______     Please provide K, ωn and ζ
+    s^2 + 2ζωn s + ωn^2
+    )";
 
-            printf("Input a value for K\n");
+            printf("\nInput a value for K: ");
             K = getDoubleGreaterThanZero();
 
-            printf("Input a value for ωn\n");
+            printf("Input a value for ωn: ");
             wn = getDoubleGreaterThanZero();
 
-            printf("Input a value for ζ\n");
+            printf("Input a value for ζ: ");
             zeta = getPositiveDouble();
 
             myModel.a0 = wn * wn;
@@ -74,16 +126,16 @@ PlantModel choosePlant(){
             break;
         case 3:
             std::cout << R"(
-            ________1______
-             Js^2 + cs + k     Please be prepared to provide J, c and k
-            )";
-            printf("Input a value for J\n");
+    ______1______     Please provide J, c and k
+    Js^2 + cs + k     
+    )";
+            printf("\nInput a value for J: ");
             J = getDoubleGreaterThanZero();
 
-            printf("Input a value for c\n");
+            printf("Input a value for c: ");
             c = getPositiveDouble();
 
-            printf("Input a value for k\n");
+            printf("Input a value for k: ");
             k = getPositiveDouble();
 
             myModel.a0 = k;
@@ -97,16 +149,16 @@ PlantModel choosePlant(){
 }
 PIDGains getGains(){
     PIDGains myGains;
-    printf("Next provide values for Kp, Kd, Ki. A value of zero disables the term.");
+    printf("\nNext provide values for Kp, Kd, Ki.\nA value of zero disables the term.\n");
+
     printf("Enter proportional gain Kp: ");
     myGains.Kp = getPositiveDouble();
+
     printf("Enter integral gain Ki: ");
     myGains.Ki = getPositiveDouble();
 
-    return myGains;
-}
-std::vector<Sample> runSimulation(const PlantModel& plant, const PIDGains& gains, double setpoint, double duration){
-    std::vector<Sample> myVector;
-    return myVector;
+    printf("Enter integral gain Kd: ");
+    myGains.Kd = getPositiveDouble();
 
+    return myGains;
 }
