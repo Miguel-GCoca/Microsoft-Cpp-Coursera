@@ -19,18 +19,20 @@ void simulatePID() {
     bool exitProgram = false;
     bool changePlant = false;
     
-    //TODO FIX
-    do{
+    while(!exitProgram){
         auto responseVector = runSimulation(myPlant, myGains, stepInput, duration);
 
         plotResponse(responseVector, stepInput);
         printResults(responseVector, stepInput);
         promptContinue(changePlant, exitProgram);
+        if (exitProgram){
+            break;
+        }
         if (changePlant){
             myPlant = choosePlant();
         }
         myGains = getGains();
-    }while(!exitProgram);
+    }
 
     waitForEnter();
 }
@@ -68,7 +70,28 @@ void printResults(const std::vector<Sample>& samples, double stepInput){
 
 std::vector<Sample> runSimulation(const PlantModel& plant, const PIDGains& gains, double stepInput, double duration){
     std::vector<Sample> myVector;
+    constexpr double dt = 0.001;
+    int numSteps = duration/dt;
+    double y = 0.0, yPrime = 0.0, yDoublePrime = 0.0;
+    Sample iteration;
 
+    for (int i = 0; i <= numSteps; i++){
+        iteration.u = stepInput;
+        iteration.t = i * dt;
+        iteration.y = y;
+
+        myVector.push_back(iteration);
+
+        if(plant.a2 ==0){ // first order transfer function
+            yPrime = (plant.b0 * iteration.u - plant.a0 * y) / plant.a1;
+            y = y + yPrime * dt;
+        }
+        else{ //second order transfer function
+            yDoublePrime = (plant.b0 * iteration.u - plant.a1 * yPrime - plant.a0 * y) / plant.a2;
+            yPrime = yPrime + yDoublePrime * dt;
+            y = y + yPrime * dt;
+        }
+    }
 
     return myVector;
 
@@ -157,7 +180,7 @@ PIDGains getGains(){
     printf("Enter integral gain Ki: ");
     myGains.Ki = getPositiveDouble();
 
-    printf("Enter integral gain Kd: ");
+    printf("Enter derivative gain Kd: ");
     myGains.Kd = getPositiveDouble();
 
     return myGains;
