@@ -41,10 +41,10 @@ int main() {
         // Process user choice
         switch (choice) {
             case 1:
-                calculateIK();
+                basics_capstone::calculate_ik();
                 break;
             case 2:
-                simulatePID();
+                basics_capstone::simulate_pid();
                 break;
             case 3:
                 utilityFunction3();

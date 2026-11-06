@@ -13,5 +13,5 @@ add_executable(capstone
     src/pid_simulator.cpp
 )
 
-target_include_directories(capstone PRIVATE includes)
+target_include_directories(capstone PRIVATE include)
 target_compile_options(capstone PRIVATE -Wall -Wextra)
