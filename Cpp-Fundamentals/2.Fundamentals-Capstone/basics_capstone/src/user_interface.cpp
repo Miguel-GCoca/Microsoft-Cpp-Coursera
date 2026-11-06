@@ -8,8 +8,8 @@
 void displayMenu() {
     std::cout << "\n=============== MAIN MENU ===============" << std::endl;
     std::cout << "1. 3-DOF IK Calculator" << std::endl;
-    std::cout << "2. Plant + PID Controller Sim" << std::endl;
-    std::cout << "3. Utility Function 3" << std::endl;
+    std::cout << "2. Plant + PID Controller" << std::endl;
+    std::cout << "3. Wheel Encoder Kalman Filter" << std::endl;
     std::cout << "4. Utility Function 4" << std::endl;
     std::cout << "5. Exit" << std::endl;
     std::cout << "=========================================" << std::endl;

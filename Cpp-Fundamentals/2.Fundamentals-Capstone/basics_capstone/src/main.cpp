@@ -9,6 +9,7 @@
 #include "basics_capstone/utility_functions.hpp"
 #include "basics_capstone/inverse_kinematics.hpp"
 #include "basics_capstone/pid_simulator.hpp"
+#include "basics_capstone/kalman_filter.hpp"
 
 #include <iostream>
 #include <string>
@@ -47,7 +48,7 @@ int main() {
                 basics_capstone::simulate_pid();
                 break;
             case 3:
-                utilityFunction3();
+                basics_capstone::simulate_kalman();
                 break;
             case 4:
                 utilityFunction4();

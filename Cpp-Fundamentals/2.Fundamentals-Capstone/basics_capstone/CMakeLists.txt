@@ -11,6 +11,7 @@ add_executable(capstone
     src/user_interface.cpp
     src/utility_functions.cpp
     src/pid_simulator.cpp
+    src/kalman_filter.cpp
 )
 
 target_include_directories(capstone PRIVATE include)
