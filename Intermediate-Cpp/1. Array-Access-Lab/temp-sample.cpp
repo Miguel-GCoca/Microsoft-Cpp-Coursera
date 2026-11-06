@@ -1,10 +1,14 @@
 #include <iostream>
 #include <array>
 int main() {
-    // Declare and initialize a C-style array with 10 temperature readings
-    int c_temps[10] = {72, 75, 68, 80, 77, 73, 69, 82, 78, 76};    
-    // Declare and initialize std::array with the same temperature readings
-    std::array<int, 10> std_temps = {72, 75, 68, 80, 77, 73, 69, 82, 78, 76};    
-    std::cout << "Temperature data loaded successfully!" << std::endl;
-    return 0;
+
+  int c_temps[10] = {72, 75, 68, 80, 77, 73, 69, 82, 78, 76};
+  std::array<int, 10> std_temps = {72, 75, 68, 80, 77, 73, 69, 82, 78, 76};
+  // Access the 5th, 7th, and 10th temperature readings
+  std::cout << "5th reading - C-style: " << c_temps[4] << std::endl
+  std::cout << "5th reading - std::array: " << std_temps[4] << std::endl;
+
+  std::cout << "Out-of-bounds test:" << std::endl;
+  std::cout << "C-style[10]: " << c_temps[10] << " (unsafe!)" << std::endl;
+  return 0;
 }
