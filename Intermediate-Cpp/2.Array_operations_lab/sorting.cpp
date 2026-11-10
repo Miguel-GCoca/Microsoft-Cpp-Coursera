@@ -20,16 +20,28 @@ int main(){
     }
 
     printf("\nStd_style array: ");
-    for(int element : std_style){
+    for(const auto& element : std_style){
         std::cout << element << " ";
     }
     std::sort(std_style.begin(), std_style.end());
     printf("\nSorted std_style array");
-    for(int element : std_style){
+    for(const auto& element : std_style){
         std::cout << element << " ";
     }
 
-    
+    int find = 96;
+    for(int i = 0; i < 20; i++){
+        if (c_style[i] == find){
+            printf("\nFound %d at index: %d", find, i);
+            break;
+        }
+    }
+    for (const auto& value : std_style){
+        if (value == find){
+            std::cout << "\nValue found";
+            break;
+        }
+    }
     return 0;
 }
 
